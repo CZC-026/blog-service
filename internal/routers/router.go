@@ -3,13 +3,17 @@ package routers
 //在确定了业务接口设计后，需要对业务接口进行一个基础编码，确定其方法原型
 import (
 	"github.com/gin-gonic/gin"
+	_ "github.com/go-programming-tour-book/blog-service/docs"
 	v1 "github.com/go-programming-tour-book/blog-service/internal/routers/api/v1"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func NewRouter() *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	article := v1.NewArticle()
 	tag := v1.NewTag()
 	apiv1 := r.Group("/api/v1")
@@ -24,8 +28,8 @@ func NewRouter() *gin.Engine {
 		apiv1.DELETE("/articles/:id", article.Delete)
 		apiv1.PUT("/articles/:id", article.Update)
 		apiv1.PATCH("/articles/:id/state", article.Update)
-		//apiv1.GET("/articles/:id", article.List)
-		apiv1.GET("/articles/:id", article.Get)
+		apiv1.GET("/articles/:id", article.List)
+		//apiv1.GET("/articles/:id", article.Get)
 	}
 	return r
 }
