@@ -1,1 +1,7 @@
 2022/06/22 21:21:22 {"callers":["D:/WorkSpace/Go_Module_projects/TourOfGo/blog-service/demo.go: 25 main.init.0"],"level":"info","message":"eddycjy: go-programming-tour-book/blog-service","time":1655904082104225500}
+2022/06/29 11:16:26 {"callers":["D:/WorkSpace/Go_Module_projects/TourOfGo/blog-service/demo.go: 25 main.init.0"],"level":"info","message":"eddycjy: go-programming-tour-book/blog-service","time":1656472586437928500}
+2022/06/29 11:21:27 {"callers":["D:/WorkSpace/Go_Module_projects/TourOfGo/blog-service/demo.go: 25 main.init.0"],"level":"info","message":"eddycjy: go-programming-tour-book/blog-service","time":1656472887227877100}
+2022/06/29 11:23:42 {"callers":["D:/WorkSpace/Go_Module_projects/TourOfGo/blog-service/demo.go: 25 main.init.0"],"level":"info","message":"eddycjy: go-programming-tour-book/blog-service","time":1656473022999369900}
+2022/06/29 11:28:31 {"callers":["D:/WorkSpace/Go_Module_projects/TourOfGo/blog-service/demo.go: 25 main.init.0"],"level":"info","message":"eddycjy: go-programming-tour-book/blog-service","time":1656473311750662300}
+2022/06/29 11:35:14 {"callers":["D:/WorkSpace/Go_Module_projects/TourOfGo/blog-service/demo.go: 25 main.init.0"],"level":"info","message":"eddycjy: go-programming-tour-book/blog-service","time":1656473714155182800}
+2022/06/29 11:49:49 {"callers":["D:/WorkSpace/Go_Module_projects/TourOfGo/blog-service/demo.go: 25 main.init.0"],"level":"info","message":"eddycjy: go-programming-tour-book/blog-service","time":1656474589923074500}
