@@ -4,10 +4,13 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-programming-tour-book/blog-service/docs"
+	"github.com/go-programming-tour-book/blog-service/global"
 	"github.com/go-programming-tour-book/blog-service/internal/middleware"
+	"github.com/go-programming-tour-book/blog-service/internal/routers/api"
 	v1 "github.com/go-programming-tour-book/blog-service/internal/routers/api/v1"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"net/http"
 )
 
 func NewRouter() *gin.Engine {
@@ -16,6 +19,9 @@ func NewRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	r.Use(middleware.Translations())
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	upload := api.NewUpload()
+	r.POST("/upload/file", upload.UploadFile)
+	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath))
 	article := v1.NewArticle()
 	tag := v1.NewTag()
 	apiv1 := r.Group("/api/v1")
@@ -29,10 +35,10 @@ func NewRouter() *gin.Engine {
 
 		apiv1.POST("/articles", article.Create)
 		apiv1.DELETE("/articles/:id", article.Delete)
-		apiv1.DELETE("/articles/:id/unscoped", article.DeleteUnscoped)
+		//apiv1.DELETE("/articles/:id/unscoped", article.DeleteUnscoped)
 		apiv1.PUT("/articles/:id", article.Update)
 		apiv1.PATCH("/articles/:id/state", article.Update)
-		apiv1.GET("/articles/:id", article.List)
+		apiv1.GET("/articles/:id", article.Get)
 		apiv1.GET("/articles", article.List)
 
 	}

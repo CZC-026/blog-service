@@ -17,27 +17,9 @@ type Article struct { //dao层将数据关联起来
 	State         uint8  `json:"state"`
 }
 
-//func (d *Dao) CountArticle(title string, desc string, content string, coverimageurl string, state uint8) (int, error) {
-//	article := model.Article{
-//		Title:         title,
-//		Desc:          desc,
-//		Content:       content,
-//		CoverImageUrl: coverimageurl,
-//		State:         state,
-//	}
-//	return article.Count(d.engine)
-//}
-
-func (d *Dao) GetArticleList(title string, desc string, content string, coverimageurl string, state uint8, page, pageSize int) ([]*model.Article, error) {
-	article := model.Article{
-		Title:         title,
-		Desc:          desc,
-		Content:       content,
-		CoverImageUrl: coverimageurl,
-		State:         state,
-	}
-	pageOffset := app.GetPageOffset(page, pageSize)
-	return article.List(d.engine, pageOffset, pageSize)
+func (d *Dao) GetArticle(id uint32, state uint8) (model.Article, error) {
+	article := model.Article{Model: &model.Model{ID: id}, State: state}
+	return article.Get(d.engine)
 }
 
 //func (d *Dao) CreateArticle(title string, desc string, content string, coverimageurl string, state uint8, createdBy string) (*model.Article, error) {
@@ -51,7 +33,7 @@ func (d *Dao) GetArticleList(title string, desc string, content string, coverima
 //	}
 //	return article.Create(d.engine)
 //}
-func (d *Dao) CreateArticle(param *Article) error {
+func (d *Dao) CreateArticle(param *Article) (*model.Article, error) {
 	article := model.Article{
 		Title:         param.Title,
 		Desc:          param.Desc,
@@ -63,35 +45,67 @@ func (d *Dao) CreateArticle(param *Article) error {
 	return article.Create(d.engine)
 }
 
-func (d *Dao) UpdateArticle(id uint32, title string, desc string, content string, coverimageurl string, state uint8, modifiedBy string) error {
+func (d *Dao) UpdateArticle(param *Article) error {
 	article := model.Article{
-		Model: &model.Model{ID: id},
+		Model: &model.Model{ID: param.ID},
 	}
 	values := map[string]interface{}{
-		"state":       state,
-		"modified_by": modifiedBy,
+		"state":       param.State,
+		"modified_by": param.ModifiedBy,
 	}
-	if title != "" {
-		values["title"] = title
+	if param.Title != "" {
+		values["title"] = param.Title
 	}
-	if desc != "" {
-		values["desc"] = desc
+	if param.Desc != "" {
+		values["desc"] = param.Desc
 	}
-	if content != "" {
-		values["content"] = content
+	if param.Content != "" {
+		values["content"] = param.Content
 	}
-	if coverimageurl != "" {
-		values["coverimageurl"] = coverimageurl
+	if param.CoverImageUrl != "" {
+		values["cover_image_url"] = param.CoverImageUrl
 	}
 	return article.Update(d.engine, values)
 }
 
-func (d *Dao) DeleteTArticle(id uint32) error {
+func (d *Dao) DeleteArticle(id uint32) error {
 	article := model.Article{Model: &model.Model{ID: id}}
 	return article.Delete(d.engine)
 }
 
-func (d *Dao) DeleteTArticle1(id uint32) error {
+func (d *Dao) DeleteArticle1(id uint32) error {
 	article := model.Article{Model: &model.Model{ID: id}}
 	return article.Delete1(d.engine)
+}
+
+//func (d *Dao) CountArticle(title string, desc string, content string, coverimageurl string, state uint8) (int, error) {
+//	article := model.Article{
+//		Title:         title,
+//		Desc:          desc,
+//		Content:       content,
+//		CoverImageUrl: coverimageurl,
+//		State:         state,
+//	}
+//	return article.Count(d.engine)
+//}
+
+//func (d *Dao) GetArticleList(title string, desc string, content string, coverimageurl string, state uint8, page, pageSize int) ([]*model.Article, error) {
+//	article := model.Article{
+//		Title:         title,
+//		Desc:          desc,
+//		Content:       content,
+//		CoverImageUrl: coverimageurl,
+//		State:         state,
+//	}
+//	pageOffset := app.GetPageOffset(page, pageSize)
+//	return article.List(d.engine, pageOffset, pageSize)
+//}
+func (d *Dao) CountArticleListByTagID(id uint32, state uint8) (int, error) {
+	article := model.Article{State: state}
+	return article.CountByTagID(d.engine, id)
+}
+
+func (d *Dao) GetArticleListByTagID(id uint32, state uint8, page, pageSize int) ([]*model.ArticleRow, error) {
+	article := model.Article{State: state}
+	return article.ListByTagID(d.engine, id, app.GetPageOffset(page, pageSize), pageSize)
 }
