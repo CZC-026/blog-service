@@ -35,6 +35,12 @@ type DatabaseSettingS struct {
 	MaxOpenConns int
 }
 
+type JWTSettions struct {
+	Secret string
+	Issuer string
+	Expire time.Duration
+}
+
 //通过此函数能够读取文件的配置信息了，但是还不能告诉程序
 func (s *Setting) ReadSection(k string, v interface{}) error {
 	err := s.vp.UnmarshalKey(k, v)

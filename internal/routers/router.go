@@ -26,6 +26,8 @@ func NewRouter() *gin.Engine {
 	tag := v1.NewTag()
 	apiv1 := r.Group("/api/v1")
 	{
+		r.POST("/auth", api.GetAuth)
+
 		apiv1.POST("/tags", tag.Create)
 		apiv1.DELETE("/tags/:id", tag.Delete)
 		apiv1.DELETE("/tags/:id/unscoped", tag.DeleteUnscoped)

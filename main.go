@@ -52,6 +52,11 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
+	err = settinig.ReadSection("JWT", &global.JWTSetting)
+	if err != nil {
+		return err
+	}
+	global.JWTSetting.Expire *= time.Second
 	err = settinig.ReadSection("Server", &global.ServerSetting)
 	if err != nil {
 		return err
